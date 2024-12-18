@@ -1,5 +1,5 @@
 ##To run the application, go to the project directory from terminal/command prompt and execute the following commands.
-./gradlew run --args="<meter records file> <optional output file>"
+./gradlew run --args="<<meter-records-file>> <optional-output-file>"
 
  Run with one commandline argument
 * ./gradlew run --args="/Users/danukaaluthge/IdeaProjects/flo-energy/src/test/resources/meter-entries.csv"
