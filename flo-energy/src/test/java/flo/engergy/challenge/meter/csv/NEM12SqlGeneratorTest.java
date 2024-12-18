@@ -1,5 +1,6 @@
 package flo.engergy.challenge.meter.csv;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,12 +14,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class NEM12SqlGeneratorTest {
 
+    private String OUT_FILE = System.getProperty("user.dir") + "/sql-inserts.sql";
+
+    @BeforeEach
+    public void init() throws IOException {
+        Files.deleteIfExists(Path.of(OUT_FILE));
+    }
+
     @Test
     public void shouldWriteSqlInsertsOfValidMeterReadingsFile() throws IOException {
         NEM12SqlGenerator.main(new String[]{Objects.requireNonNull(getClass().getResource("/meter-entries.csv")).getFile()});
+        assertOutputFile();
+    }
 
+    @Test
+    public void shouldWriteSqlInsertsOfValidMeterReadingsFileWithTwoArgs() throws IOException {
+        NEM12SqlGenerator.main(new String[]{Objects.requireNonNull(getClass().getResource("/meter-entries.csv")).getFile(), OUT_FILE});
+        assertOutputFile();
+    }
+
+    private void assertOutputFile() throws IOException {
         Set<String> written = Files
-                .lines(Path.of(System.getProperty("user.dir") + "/sql-inserts.sql"))
+                .lines(Path.of(OUT_FILE))
                 .collect(Collectors.toSet());
 
         assertEquals(384, written.size());
